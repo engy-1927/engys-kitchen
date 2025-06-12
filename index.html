@@ -9,11 +9,8 @@
       margin: 0;
       padding: 0;
       font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(to bottom right, #ffe6f0, #e0f7fa);
-      background-image: url('https://i.imgur.com/OdL0XPt.png'); /* pastel butterflies & clouds */
+      background: url('https://i.ibb.co/tXfL1hF/pastel-sky.png') no-repeat center center fixed;
       background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       color: #6b4c7d;
     }
 
@@ -21,9 +18,9 @@
       max-width: 600px;
       margin: 2rem auto;
       padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(255, 255, 255, 0.88);
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.4);
     }
 
     h1 {
@@ -85,7 +82,7 @@
   <div class="container">
     <div class="chat-box" id="chat"></div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type a recipe name like 'cookies'..." />
+      <input type="text" id="userInput" placeholder="Type anything like 'I wanna bake cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
@@ -93,9 +90,8 @@
   <script>
     const chatBox = document.getElementById("chat");
 
-    // Show welcome message inside bot
     window.onload = () => {
-      const welcome = `Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️`;
+      const welcome = `Hey sweetie! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️`;
       chatBox.innerHTML += `<div class="message bot">${welcome}</div>`;
     };
 
@@ -125,19 +121,18 @@ You're doing amazing, princess! 💕✨`
       const userMsg = input.value.trim().toLowerCase();
       if (!userMsg) return;
 
-      const userBubble = `<div class="message user">${userMsg}</div>`;
-      chatBox.innerHTML += userBubble;
+      chatBox.innerHTML += `<div class="message user">${input.value}</div>`;
 
       let reply;
-      if (recipes[userMsg]) {
-        reply = recipes[userMsg];
+
+      // Pattern matching for variations
+      if (userMsg.includes("cookie")) {
+        reply = recipes.cookies;
       } else {
         reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
       }
 
-      const botBubble = `<div class="message bot">${reply}</div>`;
-      chatBox.innerHTML += botBubble;
-
+      chatBox.innerHTML += `<div class="message bot">${reply}</div>`;
       chatBox.scrollTop = chatBox.scrollHeight;
       input.value = "";
     }
