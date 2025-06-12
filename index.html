@@ -8,31 +8,36 @@
     body {
       margin: 0;
       padding: 0;
+      font-family: 'Quicksand', sans-serif;
       background: linear-gradient(to bottom right, #ffe6f0, #e0f7fa);
-      font-family: 'Segoe UI', cursive, sans-serif;
-      color: #6b4c7d;
-      background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+      background-image: url('https://i.imgur.com/OdL0XPt.png'); /* pastel butterflies & clouds */
       background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #6b4c7d;
     }
 
     .container {
       max-width: 600px;
       margin: 2rem auto;
       padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.85);
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 192, 203, 0.6);
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
+    }
+
+    h1 {
+      display: none;
     }
 
     .chat-box {
       border: 2px dashed #ffb6c1;
       padding: 1rem;
       border-radius: 15px;
-      min-height: 200px;
+      min-height: 250px;
       margin-bottom: 1rem;
       background-color: #fffafc;
       overflow-y: auto;
-      max-height: 300px;
     }
 
     .input-group {
@@ -45,7 +50,6 @@
       border-radius: 15px;
       border: 2px solid #ffc0cb;
       outline: none;
-      font-size: 1rem;
     }
 
     button {
@@ -56,43 +60,64 @@
       margin-left: 0.5rem;
       border-radius: 15px;
       cursor: pointer;
-      font-size: 1rem;
     }
 
     .message {
       margin: 0.5rem 0;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
       line-height: 1.6;
     }
 
     .bot {
       background-color: #f9ebf2;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
+      color: #5e2c6f;
     }
 
     .user {
       text-align: right;
       color: #8e44ad;
+      background-color: #e6ddf7;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="chat-box" id="chat">
-      <div class="message bot">
-        Hey sweetie! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️
-      </div>
-    </div>
+    <div class="chat-box" id="chat"></div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type a recipe like 'cookies'..." />
+      <input type="text" id="userInput" placeholder="Type a recipe name like 'cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
     const chatBox = document.getElementById("chat");
+
+    // Show welcome message inside bot
+    window.onload = () => {
+      const welcome = `Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️`;
+      chatBox.innerHTML += `<div class="message bot">${welcome}</div>`;
+    };
+
     const recipes = {
-      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪\n\n🥚 An egg\n🍦 1 tsp of vanilla\n🍬 Half cup of powdered sugar\n🟤 (Add brown sugar too for lovely color!)\n🥄 Mix mix mix!\n🛢️ Add ½ cup oil + 1 tsp vinegar\n🔁 Mix again\n🧂 Pinch of salt + ½ packet baking powder\n🌾 Gradually add 1½ cups of flour (until dough doesn't stick)\n🚫 Don't overmix!\n🍫 Add your cutest choco chips\n\n💕 Make small dough balls, dip in choco\n🔥 Bake at 200°C for 15–20 min\n💭 It may look soft but it's done — let it cool\n💖 Don't forget to say Bismallah, sweetie! 🎀\n\nYou're doing amazing, princess! 💕✨`
+      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
+🥚 An egg<br>
+🍦 1 tsp of vanilla<br>
+🍬 Half cup of powdered sugar<br>
+🟤 Add brown sugar if available for a nicer color!<br>
+🥄 Mix mix mix!<br>
+🛢️ Add ½ cup oil + 1 tsp vinegar<br>
+🔁 Mix again<br>
+🧂 Pinch of salt + ½ packet baking powder<br>
+🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)<br>
+🚫 Don't overmix!<br>
+💕 Let it rest till you get your chocolate chips<br>
+🍫 Dip in your chocolate chips<br>
+🔥 Bake at 200°C for 15–20 mins (it may vary according to your oven)<br>
+💡 <b>Note:</b> It might look like it's not done yet but trust me, once it gets that golden color get it out immediately. It just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋<br>
+⚠️ <i>(Don't leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)</i><br>
+💖 Don’t forget to say Bismallah, sweetie! 🎀<br><br>
+You're doing amazing, princess! 💕✨`
     };
 
     function sendMessage() {
@@ -100,7 +125,8 @@
       const userMsg = input.value.trim().toLowerCase();
       if (!userMsg) return;
 
-      chatBox.innerHTML += `<div class="message user">${userMsg}</div>`;
+      const userBubble = `<div class="message user">${userMsg}</div>`;
+      chatBox.innerHTML += userBubble;
 
       let reply;
       if (recipes[userMsg]) {
@@ -109,7 +135,9 @@
         reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
       }
 
-      chatBox.innerHTML += `<div class="message bot">${reply.replace(/\n/g, '<br>')}</div>`;
+      const botBubble = `<div class="message bot">${reply}</div>`;
+      chatBox.innerHTML += botBubble;
+
       chatBox.scrollTop = chatBox.scrollHeight;
       input.value = "";
     }
