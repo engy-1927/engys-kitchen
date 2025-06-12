@@ -8,11 +8,8 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #ffeaf5;
-      background-image: url('https://i.imgur.com/jh3JAvH.png'); /* working pastel clouds + butterflies bg */
+      background: url('https://i.imgur.com/SN9zqZ7.jpg') no-repeat center center fixed;
       background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       font-family: 'Quicksand', sans-serif;
       color: #6b4c7d;
     }
@@ -26,15 +23,11 @@
       box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
     }
 
-    h1 {
-      display: none; /* hidden since bot now welcomes */
-    }
-
     .chat-box {
       border: 2px dashed #ffb6c1;
       padding: 1rem;
       border-radius: 15px;
-      min-height: 300px;
+      min-height: 250px;
       background-color: #fffafc;
       overflow-y: auto;
       max-height: 400px;
@@ -65,16 +58,15 @@
 
     .message {
       margin: 0.5rem 0;
-      line-height: 1.5;
     }
 
     .bot {
       background-color: #f9ebf2;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1rem;
       border-radius: 10px;
       width: fit-content;
       max-width: 90%;
-      animation: floatDown 8s linear infinite;
+      animation: fadeIn 0.5s ease-in;
     }
 
     .user {
@@ -82,10 +74,14 @@
       color: #8e44ad;
     }
 
-    @keyframes floatDown {
-      0% { transform: translateY(-5px); }
-      50% { transform: translateY(5px); }
-      100% { transform: translateY(-5px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .typing {
+      font-style: italic;
+      opacity: 0.6;
     }
   </style>
 </head>
@@ -93,86 +89,87 @@
   <div class="container">
     <div class="chat-box" id="chat"></div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type a recipe like 'cookies'..." />
+      <input type="text" id="userInput" placeholder="Type a recipe name like 'cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
     const chatBox = document.getElementById("chat");
-    const input = document.getElementById("userInput");
 
     const recipes = {
-      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪
-
-🥚 An egg
-🍦 1 tsp of vanilla
-🍬 Half cup of powdered sugar
-🟤 Add brown sugar if available for a nicer color!
-🥄 Mix mix mix!
-🛢️ Add ½ cup oil + 1 tsp vinegar
-🔁 Mix again
-🧂 Pinch of salt + ½ packet baking powder
-🌾 Gradually add 1½ cups of flour (until dough doesn’t stick to your hands)
-⏸️ Let it rest till you get your chocolate chips
-🍫 Dip in your chocolate chips
-🔥 Bake at 200°C for 15–20 min (may vary based on your oven)
-
-💭 (Note: It might look like it’s not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋)
-⚠️ (Don’t leave it in the oven for much longer or you’ll enjoy burnt cookies 😃✨)
-
-💖 Don’t forget to say Bismallah, sweetie! 🎀 You’re doing amazing, princess! 💕✨`
+      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
+🥚 An egg<br>
+🍦 1 tsp of vanilla<br>
+🍬 Half cup of powdered sugar<br>
+🟤 Add brown sugar if available for a nicer color!<br>
+🥄 Mix mix mix!<br>
+🛢️ Add ½ cup oil + 1 tsp vinegar<br>
+🔁 Mix again<br>
+🧂 Pinch of salt + ½ packet baking powder<br>
+🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)<br>
+💤 Let it rest till you get your chocolate chips<br>
+🍫 Dip in your chocolate chips<br>
+💕 Make small dough balls<br>
+🔥 Bake at 200⁰C for 15–20 mins (may vary according to your oven)<br><br>
+⚠️ <i>Note: It might look like it's not done yet but trust me, once it gets that golden color get it out immediately — it just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋</i><br>
+❗<i>Don't leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️</i><br><br>
+💖 Don't forget to say Bismallah, sweetie! You're doing amazing, princess! 💕✨`
     };
 
-    // Show welcome message from bot on load
-    window.onload = () => {
-      typeBotMessage(`Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️ What would you like to cook today? ✨️`);
-    };
+    const cookieKeywords = [
+      "cookies", "make cookies", "i wanna make cookies", 
+      "help me with cookies", "how to bake cookies",
+      "bake cookies", "can you give me a cookie recipe",
+      "cookie recipe", "cookies recipe", "i want cookies"
+    ];
 
-    function sendMessage() {
-      const userMsg = input.value.trim();
-      if (!userMsg) return;
+    function addMessage(content, sender = 'bot') {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      msgDiv.innerHTML = content;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-      chatBox.innerHTML += `<div class="message user">${userMsg}</div>`;
+    function simulateTyping(text) {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot typing';
+      typingDiv.innerText = "typing...";
+      chatBox.appendChild(typingDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      input.value = "";
-
       setTimeout(() => {
-        respondToUser(userMsg.toLowerCase());
-      }, 2000); // 2 second delay
+        typingDiv.remove();
+        addMessage(text, 'bot');
+      }, 2000);
     }
 
-    function respondToUser(msg) {
-      const triggerWords = ["cookie", "cookies", "make cookies", "bake cookies", "cookie recipe"];
-      let reply;
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const userText = input.value.trim();
+      if (!userText) return;
 
-      if (triggerWords.some(word => msg.includes(word))) {
-        reply = recipes["cookies"];
+      addMessage(userText, 'user');
+
+      const lower = userText.toLowerCase();
+      const found = cookieKeywords.some(keyword => lower.includes(keyword));
+
+      if (found) {
+        simulateTyping(recipes.cookies);
       } else {
-        reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
+        simulateTyping("🧁 I'm still learning that recipe, sweetheart! Try asking for 'cookies' 🍪 or check back later 💖");
       }
 
-      typeBotMessage(reply);
+      input.value = "";
     }
 
-    function typeBotMessage(message) {
-      let i = 0;
-      const speed = 20;
-      const botBubble = document.createElement("div");
-      botBubble.className = "message bot";
-      chatBox.appendChild(botBubble);
-
-      function typeChar() {
-        if (i < message.length) {
-          botBubble.innerHTML += message.charAt(i) === "\n" ? "<br>" : message.charAt(i);
-          i++;
-          chatBox.scrollTop = chatBox.scrollHeight;
-          setTimeout(typeChar, speed);
-        }
-      }
-      typeChar();
-    }
+    // Initial welcome message
+    window.onload = () => {
+      setTimeout(() => {
+        simulateTyping("Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️ What would you like to cook today? ✨️");
+      }, 1000);
+    };
   </script>
 </body>
 </html>
