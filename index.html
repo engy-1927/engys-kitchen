@@ -3,164 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Engy's Kitchen</title>
+  <title>Engy's Kitchen 🍪</title>
   <style>
+    html, body {
+      height: 100%;
+      overflow-y: auto;
+    }
+
     body {
       margin: 0;
-      padding: 0;
-      background-color: #ffe6f0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      overflow: hidden;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-image: url('https://i.ibb.co/qkg0dnh/pastel-pink-clouds-butterflies.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #333;
     }
 
-    .background {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .background span {
-      position: absolute;
-      font-size: 2rem;
-      animation: floatDown 12s linear infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes floatDown {
-      0% { transform: translateY(-10%); }
-      100% { transform: translateY(110%); }
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 5% auto;
-      padding: 2rem;
-      background: rgba(255,255,255,0.8);
+    .chat-container {
+      max-width: 500px;
+      margin: 60px auto;
+      background: rgba(255, 255, 255, 0.85);
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255,192,203,0.5);
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .chat-box {
-      border: 2px dashed #ffb6c1;
-      padding: 1rem;
-      min-height: 250px;
-      background: #fffafc;
-      border-radius: 15px;
-      overflow-y: auto;
-      font-size: 1rem;
-      line-height: 1.4;
-      color: #6b4c7d;
+    .message {
+      padding: 12px 18px;
+      border-radius: 20px;
+      margin: 10px 0;
+      max-width: 80%;
+      line-height: 1.5;
     }
 
-    .input-group {
+    .bot {
+      background-color: #ffe0f0;
+      align-self: flex-start;
+      font-size: 16px;
+    }
+
+    .user {
+      background-color: #d0f0ff;
+      align-self: flex-end;
+      font-size: 16px;
+    }
+
+    .input-area {
       display: flex;
-      margin-top: 1rem;
+      margin-top: 15px;
     }
 
     input {
       flex: 1;
-      padding: 0.8rem;
-      border-radius: 15px;
+      padding: 10px 15px;
+      font-size: 16px;
       border: 2px solid #ffc0cb;
+      border-radius: 20px;
       outline: none;
     }
 
     button {
-      background: #ffb6c1;
-      color: white;
+      margin-left: 10px;
+      background-color: #ffb6c1;
       border: none;
-      padding: 0.8rem 1.5rem;
-      margin-left: 0.5rem;
-      border-radius: 15px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: white;
+      font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    .message {
-      margin: 0.5rem 0;
+    button:hover {
+      background-color: #ff94b8;
     }
 
-    .bot {
-      background: #f9ebf2;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-    }
-
-    .user {
-      text-align: right;
-      color: #8e44ad;
+    .messages {
+      display: flex;
+      flex-direction: column;
     }
   </style>
 </head>
 <body>
-  <!-- Emoji Background -->
-  <div class="background">
-    <span style="left: 10%;">☁️</span>
-    <span style="left: 30%;">🦋</span>
-    <span style="left: 50%;">✨</span>
-    <span style="left: 70%;">☁️</span>
-    <span style="left: 85%;">🦋</span>
-    <span style="left: 40%;">✨</span>
-    <span style="left: 20%;">☁️</span>
-  </div>
-
-  <!-- Chat Container -->
-  <div class="container">
-    <div class="chat-box" id="chat">
-      <div class="message bot">
-        Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br>
-        What would you like to cook today? ✨️
-      </div>
+  <div class="chat-container">
+    <div class="messages" id="messages">
+      <div class="message bot">Hey princess!🎀 I'm your cooking fairy🧚‍♀️ What would you like to cook today?✨️</div>
     </div>
-    <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type something..." />
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type here..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('userInput');
+    const messages = document.getElementById("messages");
 
-    const recipe = `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
-🥚 An egg<br>
-🍦 1 tsp vanilla<br>
-🍬 Half cup powdered sugar<br>
-🟤 Add brown sugar if available for a nicer color<br>
-🥄 Mix mix mix!<br>
-🛢️ Add ½ cup oil + 1 tsp vinegar<br>
-🔁 Mix again<br>
-🧂 Pinch salt + ½ packet baking powder<br>
-🌾 Gradually add 1½ cups flour (until dough doesn't stick to your hands)<br>
-😌 Let it rest till you get your chocolate chips<br>
-🍫 Dip in your chocolate chips<br>
-🔥 Bake at 200°C for 15–20 mins (may vary)<br><br>
-💡 (Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating, once it cools down it will become more crispy 😋)<br>
-⚠️ (Don’t leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)<br><br>
-💖 Bismillah, sweetie! You’re doing amazing, princess! 🎀`;
+    function addMessage(text, sender) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.textContent = text;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function botResponse(userText) {
+      const lowercase = userText.toLowerCase();
+      if (
+        lowercase.includes("cookie") ||
+        lowercase.includes("cookies") ||
+        lowercase.includes("make cookies") ||
+        lowercase.includes("some cookies")
+      ) {
+        return `Yay! Let's make the yummiest cookies ever! 🍪💖
+
+1. Add 1½ cups flour gradually.
+2. 1 egg + 1 tsp vanilla + 1 pinch salt.
+3. Add ½ tsp baking soda and ½ tsp baking powder.
+4. Add ½ cup melted butter and ½ cup sugar.
+5. Add brown sugar if available for a nicer color 🍯.
+6. Mix until dough doesn't stick to your hands 👐.
+7. Let it rest till you get your chocolate chips 🍫.
+8. Dip in your chocolate chips generously 😍.
+9. Bake it at 200⁰C for 15-20 mins (may vary by oven).
+
+(Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately! It just needs to cool down for a while before eating. Once it cools down it will become more crispy😋)
+(Don't leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)
+
+Happy baking sweetie! 🍪🧁💗`;
+      }
+
+      return "Aww I don't know this recipe yet!✨ Tell me exactly what you'd like to cook, cutie 🍓";
+    }
 
     function sendMessage() {
-      const msg = input.value.trim();
-      if (!msg) return;
+      const input = document.getElementById("userInput");
+      const userText = input.value.trim();
+      if (userText === "") return;
 
-      // User message
-      chat.innerHTML += `<div class="message user">${msg}</div>`;
-      input.value = '';
-      chat.scrollTop = chat.scrollHeight;
+      addMessage(userText, "user");
+      input.value = "";
 
-      // Bot reply with delay
       setTimeout(() => {
-        const text = msg.toLowerCase();
-        const wantsCookies = text.includes('cookie');
-
-        const reply = wantsCookies
-          ? recipe
-          : "🧁 I'm your kitchen fairy, ask me for the cookie recipe anytime! 💖";
-
-        chat.innerHTML += `<div class="message bot">${reply}</div>`;
-        chat.scrollTop = chat.scrollHeight;
+        const response = botResponse(userText);
+        typeBotMessage(response);
       }, 2000);
+    }
+
+    function typeBotMessage(text) {
+      let i = 0;
+      const speed = 15;
+      const msg = document.createElement("div");
+      msg.classList.add("message", "bot");
+      messages.appendChild(msg);
+
+      function typeChar() {
+        if (i < text.length) {
+          msg.textContent += text.charAt(i);
+          i++;
+          messages.scrollTop = messages.scrollHeight;
+          setTimeout(typeChar, speed);
+        }
+      }
+      typeChar();
     }
   </script>
 </body>
