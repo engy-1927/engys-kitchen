@@ -2,180 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Engy's Kitchen</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
-
     body {
       margin: 0;
       padding: 0;
-      background: #ffdeea; /* pastel pink */
-      font-family: 'Baloo 2', cursive, sans-serif;
+      background-color: #ffeaf5;
+      background-image: url('https://i.imgur.com/jh3JAvH.png'); /* working pastel clouds + butterflies bg */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: 'Quicksand', sans-serif;
       color: #6b4c7d;
-      overflow-x: hidden;
-      position: relative;
-      height: 100vh;
     }
 
-    /* Floating cloud emoji animations going down */
-    .cloud {
-      position: fixed;
-      top: -5%;
-      font-size: 2.5rem;
-      opacity: 0.8;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      user-select: none;
-      pointer-events: none;
-    }
-    @keyframes fall {
-      0% { top: -10%; }
-      100% { top: 110%; }
-    }
-
-    /* Different speeds and delays for multiple clouds */
-    .cloud1 {
-      left: 10%;
-      animation-duration: 35s;
-      animation-delay: 0s;
-    }
-    .cloud2 {
-      left: 40%;
-      font-size: 3rem;
-      animation-duration: 45s;
-      animation-delay: 12s;
-    }
-    .cloud3 {
-      left: 70%;
-      animation-duration: 30s;
-      animation-delay: 6s;
-    }
-    .cloud4 {
-      left: 85%;
-      font-size: 2rem;
-      animation-duration: 50s;
-      animation-delay: 18s;
-    }
-
-    /* Floating butterflies */
-    .butterfly {
-      position: fixed;
-      top: 10%;
-      font-size: 2.3rem;
-      animation-name: flutter;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-      user-select: none;
-      pointer-events: none;
-      opacity: 0.9;
-    }
-    @keyframes flutter {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      25% { transform: translateY(-10px) translateX(10px) rotate(10deg); }
-      50% { transform: translateY(0) translateX(20px) rotate(-10deg); }
-      75% { transform: translateY(10px) translateX(10px) rotate(10deg); }
-    }
-    .butterfly1 {
-      left: 25%;
-      color: #ff9fc3;
-      animation-duration: 6s;
-      animation-delay: 0s;
-    }
-    .butterfly2 {
-      left: 55%;
-      top: 30%;
-      color: #c7e7ff;
-      animation-duration: 7s;
-      animation-delay: 3s;
-    }
-    .butterfly3 {
-      left: 80%;
-      top: 50%;
-      color: #ffb6c1;
-      animation-duration: 8s;
-      animation-delay: 5s;
-    }
-
-    /* Sparkles */
-    .sparkle {
-      position: fixed;
-      font-size: 1.5rem;
-      color: #fce4ec;
-      opacity: 0.8;
-      user-select: none;
-      pointer-events: none;
-      animation-name: twinkle;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(1.2); }
-    }
-    .sparkle1 {
-      left: 15%;
-      top: 20%;
-      animation-duration: 4s;
-      animation-delay: 0s;
-    }
-    .sparkle2 {
-      left: 60%;
-      top: 10%;
-      animation-duration: 5s;
-      animation-delay: 2s;
-    }
-    .sparkle3 {
-      left: 90%;
-      top: 35%;
-      animation-duration: 3.5s;
-      animation-delay: 1s;
-    }
-
-    /* Container and chat styles */
     .container {
       max-width: 600px;
-      margin: 3rem auto 4rem;
+      margin: 2rem auto;
       padding: 2rem;
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 192, 203, 0.6);
-      position: relative;
-      z-index: 10;
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
     }
+
     h1 {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #6b4c7d;
+      display: none; /* hidden since bot now welcomes */
     }
+
     .chat-box {
       border: 2px dashed #ffb6c1;
       padding: 1rem;
       border-radius: 15px;
-      min-height: 220px;
+      min-height: 300px;
       background-color: #fffafc;
       overflow-y: auto;
-      font-size: 1.1rem;
-      line-height: 1.4;
-      color: #6b4c7d;
-      white-space: pre-wrap;
+      max-height: 400px;
     }
+
     .input-group {
       display: flex;
       margin-top: 1rem;
     }
+
     input[type="text"] {
       flex: 1;
       padding: 0.8rem;
       border-radius: 15px;
       border: 2px solid #ffc0cb;
       outline: none;
-      font-family: 'Baloo 2', cursive, sans-serif;
-      font-size: 1.1rem;
-      color: #6b4c7d;
     }
+
     button {
       background-color: #ffb6c1;
       color: white;
@@ -184,55 +61,39 @@
       margin-left: 0.5rem;
       border-radius: 15px;
       cursor: pointer;
-      font-family: 'Baloo 2', cursive, sans-serif;
-      font-size: 1.1rem;
-      transition: background-color 0.3s ease;
     }
-    button:hover {
-      background-color: #ff93b9;
-    }
+
     .message {
       margin: 0.5rem 0;
+      line-height: 1.5;
     }
+
     .bot {
       background-color: #f9ebf2;
-      padding: 0.6rem 1rem;
-      border-radius: 12px;
-      max-width: 85%;
-      word-wrap: break-word;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      width: fit-content;
+      max-width: 90%;
+      animation: floatDown 8s linear infinite;
     }
+
     .user {
       text-align: right;
       color: #8e44ad;
-      max-width: 85%;
-      margin-left: auto;
-      font-weight: 600;
+    }
+
+    @keyframes floatDown {
+      0% { transform: translateY(-5px); }
+      50% { transform: translateY(5px); }
+      100% { transform: translateY(-5px); }
     }
   </style>
 </head>
 <body>
-
-  <!-- Floating clouds -->
-  <div class="cloud cloud1">☁️</div>
-  <div class="cloud cloud2">☁️</div>
-  <div class="cloud cloud3">☁️</div>
-  <div class="cloud cloud4">☁️</div>
-
-  <!-- Floating butterflies -->
-  <div class="butterfly butterfly1">🦋</div>
-  <div class="butterfly butterfly2">🦋</div>
-  <div class="butterfly butterfly3">🦋</div>
-
-  <!-- Sparkles -->
-  <div class="sparkle sparkle1">✨</div>
-  <div class="sparkle sparkle2">✨</div>
-  <div class="sparkle sparkle3">✨</div>
-
   <div class="container">
-    <h1>Engy's Kitchen</h1>
     <div class="chat-box" id="chat"></div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type a recipe name or ask me something..." autocomplete="off" />
+      <input type="text" id="userInput" placeholder="Type a recipe like 'cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
@@ -247,85 +108,70 @@
 🥚 An egg
 🍦 1 tsp of vanilla
 🍬 Half cup of powdered sugar
-🟤 Add brown sugar if available for a nicer color
+🟤 Add brown sugar if available for a nicer color!
 🥄 Mix mix mix!
 🛢️ Add ½ cup oil + 1 tsp vinegar
 🔁 Mix again
 🧂 Pinch of salt + ½ packet baking powder
-🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)
-🚫 Don't overmix!
-🍫 Dip in your chocolate chips (let it rest till you get your chocolate chips)
-🔥 Bake it at 200⁰C for 15-20 mins (it may vary according to your oven)
+🌾 Gradually add 1½ cups of flour (until dough doesn’t stick to your hands)
+⏸️ Let it rest till you get your chocolate chips
+🍫 Dip in your chocolate chips
+🔥 Bake at 200°C for 15–20 min (may vary based on your oven)
 
-(Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately it just needs to cool down for a while before eating, once it cools down it will become more crispy😋)
-(Don't leave it in the oven for much longer or you will enjoy burnt cookies😃✨️)
+💭 (Note: It might look like it’s not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋)
+⚠️ (Don’t leave it in the oven for much longer or you’ll enjoy burnt cookies 😃✨)
 
-💖 Don't forget to say Bismallah, sweetie! 🎀
-
-You're doing amazing, princess! 💕✨`,
+💖 Don’t forget to say Bismallah, sweetie! 🎀 You’re doing amazing, princess! 💕✨`
     };
 
-    // Append message helper - returns the new message div
-    function appendMessage(text, sender) {
-      const div = document.createElement("div");
-      div.classList.add("message", sender);
-      div.innerHTML = text.replace(/\n/g, "<br>");
-      chatBox.appendChild(div);
-      chatBox.scrollTop = chatBox.scrollHeight;
-      return div;
-    }
-
-    // Typing effect function
-    function typeMessage(element, message) {
-      return new Promise((resolve) => {
-        let index = 0;
-        element.innerHTML = "";
-        const interval = setInterval(() => {
-          element.innerHTML += message.charAt(index).replace(/\n/g, "<br>");
-          index++;
-          chatBox.scrollTop = chatBox.scrollHeight;
-          if (index >= message.length) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 30);
-      });
-    }
-
-    // Send welcome message on load
-    window.onload = async () => {
-      const botMsgDiv = appendMessage("", "bot");
-      await new Promise(r => setTimeout(r, 500)); // slight delay
-      await typeMessage(botMsgDiv, "Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br>What would you like to cook today? ✨️");
+    // Show welcome message from bot on load
+    window.onload = () => {
+      typeBotMessage(`Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️ What would you like to cook today? ✨️`);
     };
 
-    async function sendMessage() {
+    function sendMessage() {
       const userMsg = input.value.trim();
       if (!userMsg) return;
 
-      appendMessage(userMsg, "user");
+      chatBox.innerHTML += `<div class="message user">${userMsg}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
 
       input.value = "";
-      input.disabled = true;
 
-      await new Promise(r => setTimeout(r, 2000)); // wait 2 seconds before bot replies
+      setTimeout(() => {
+        respondToUser(userMsg.toLowerCase());
+      }, 2000); // 2 second delay
+    }
 
-      let reply = "";
-      const msgLower = userMsg.toLowerCase();
-const triggerWords = ["cookie", "cookies", "make cookies", "bake cookies", "cookie recipe"];
+    function respondToUser(msg) {
+      const triggerWords = ["cookie", "cookies", "make cookies", "bake cookies", "cookie recipe"];
+      let reply;
 
-if (triggerWords.some(word => msgLower.includes(word))) {
-  reply = recipes["cookies"];
-}
+      if (triggerWords.some(word => msg.includes(word))) {
+        reply = recipes["cookies"];
       } else {
         reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
       }
 
-      const botMsgDiv = appendMessage("", "bot");
-      await typeMessage(botMsgDiv, reply);
+      typeBotMessage(reply);
+    }
 
-      input.disabled = false;
-      input.focus();
+    function typeBotMessage(message) {
+      let i = 0;
+      const speed = 20;
+      const botBubble = document.createElement("div");
+      botBubble.className = "message bot";
+      chatBox.appendChild(botBubble);
+
+      function typeChar() {
+        if (i < message.length) {
+          botBubble.innerHTML += message.charAt(i) === "\n" ? "<br>" : message.charAt(i);
+          i++;
+          chatBox.scrollTop = chatBox.scrollHeight;
+          setTimeout(typeChar, speed);
+        }
+      }
+      typeChar();
     }
   </script>
 </body>
