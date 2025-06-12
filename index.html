@@ -5,28 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Engy's Kitchen 🍪</title>
   <style>
-    html, body {
-      height: 100%;
-      overflow-y: auto;
+    * {
+      box-sizing: border-box;
     }
 
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
+      padding: 0;
       font-family: "Comic Sans MS", cursive, sans-serif;
+      overflow-x: hidden;
       background-image: url('https://i.ibb.co/qkg0dnh/pastel-pink-clouds-butterflies.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      color: #333;
     }
 
     .chat-container {
+      display: flex;
+      flex-direction: column;
       max-width: 500px;
-      margin: 60px auto;
+      height: 100vh;
+      margin: 0 auto;
       background: rgba(255, 255, 255, 0.85);
       border-radius: 20px;
       padding: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+    }
+
+    .messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-bottom: 10px;
     }
 
     .message {
@@ -51,7 +62,7 @@
 
     .input-area {
       display: flex;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     input {
@@ -77,11 +88,6 @@
 
     button:hover {
       background-color: #ff94b8;
-    }
-
-    .messages {
-      display: flex;
-      flex-direction: column;
     }
   </style>
 </head>
