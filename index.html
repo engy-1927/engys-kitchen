@@ -8,35 +8,28 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: "Quicksand", cursive, sans-serif;
-      background: linear-gradient(to bottom, #ffe6f0, #d0f0ff);
-      background-image: url("https://i.imgur.com/kP5RrUo.png"); /* pastel butterflies & hearts */
-      background-size: cover;
-      background-repeat: repeat;
+      background: linear-gradient(to bottom right, #ffe6f0, #e0f7fa);
+      font-family: 'Segoe UI', cursive, sans-serif;
       color: #6b4c7d;
+      background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+      background-size: cover;
     }
 
     .container {
       max-width: 600px;
-      margin: 3rem auto;
+      margin: 2rem auto;
       padding: 2rem;
       background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 25px;
-      box-shadow: 0 0 25px rgba(255, 192, 203, 0.5);
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-      color: #a052a0;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.6);
     }
 
     .chat-box {
-      border: 2px dashed #ffc0cb;
+      border: 2px dashed #ffb6c1;
       padding: 1rem;
-      border-radius: 20px;
-      min-height: 240px;
+      border-radius: 15px;
+      min-height: 200px;
+      margin-bottom: 1rem;
       background-color: #fffafc;
       overflow-y: auto;
       max-height: 300px;
@@ -44,7 +37,6 @@
 
     .input-group {
       display: flex;
-      margin-top: 1rem;
     }
 
     input[type="text"] {
@@ -53,27 +45,29 @@
       border-radius: 15px;
       border: 2px solid #ffc0cb;
       outline: none;
+      font-size: 1rem;
     }
 
     button {
       background-color: #ffb6c1;
       color: white;
       border: none;
-      padding: 0.8rem 1.2rem;
+      padding: 0.8rem 1.5rem;
       margin-left: 0.5rem;
       border-radius: 15px;
       cursor: pointer;
+      font-size: 1rem;
     }
 
     .message {
       margin: 0.5rem 0;
+      line-height: 1.6;
     }
 
     .bot {
-      background-color: #fbe9f5;
-      padding: 0.6rem 1rem;
-      border-radius: 15px;
-      white-space: pre-line;
+      background-color: #f9ebf2;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
     }
 
     .user {
@@ -84,7 +78,11 @@
 </head>
 <body>
   <div class="container">
-    <div class="chat-box" id="chat"></div>
+    <div class="chat-box" id="chat">
+      <div class="message bot">
+        Hey sweetie! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️
+      </div>
+    </div>
     <div class="input-group">
       <input type="text" id="userInput" placeholder="Type a recipe like 'cookies'..." />
       <button onclick="sendMessage()">Send</button>
@@ -93,32 +91,8 @@
 
   <script>
     const chatBox = document.getElementById("chat");
-
-    // Show welcome message inside the chat
-    const welcome = `Hey sweetie! 🎀 I'm your cooking fairy 🧚‍♀️\nWhat would you like to cook today? ✨️`;
-    chatBox.innerHTML += `<div class="message bot">${welcome}</div>`;
-
     const recipes = {
-      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪
-
-🥚 An egg
-🍦 1 tsp of vanilla
-🍬 Half cup of powdered sugar
-🟤 (Add brown sugar too for lovely color!)
-🥄 Mix mix mix!
-🛢️ Add ½ cup oil + 1 tsp vinegar
-🔁 Mix again
-🧂 Pinch of salt + ½ packet baking powder
-🌾 Gradually add 1½ cups of flour (until dough doesn't stick)
-🚫 Don't overmix!
-🍫 Add your cutest choco chips
-
-💕 Make small dough balls, dip in choco
-🔥 Bake at 200°C for 15–20 min
-💭 It may look soft but it's done — let it cool
-💖 Don't forget to say Bismallah, sweetie! 🎀
-
-You're doing amazing, princess! 💕✨`
+      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪\n\n🥚 An egg\n🍦 1 tsp of vanilla\n🍬 Half cup of powdered sugar\n🟤 (Add brown sugar too for lovely color!)\n🥄 Mix mix mix!\n🛢️ Add ½ cup oil + 1 tsp vinegar\n🔁 Mix again\n🧂 Pinch of salt + ½ packet baking powder\n🌾 Gradually add 1½ cups of flour (until dough doesn't stick)\n🚫 Don't overmix!\n🍫 Add your cutest choco chips\n\n💕 Make small dough balls, dip in choco\n🔥 Bake at 200°C for 15–20 min\n💭 It may look soft but it's done — let it cool\n💖 Don't forget to say Bismallah, sweetie! 🎀\n\nYou're doing amazing, princess! 💕✨`
     };
 
     function sendMessage() {
@@ -128,15 +102,14 @@ You're doing amazing, princess! 💕✨`
 
       chatBox.innerHTML += `<div class="message user">${userMsg}</div>`;
 
-      let reply = "";
-
+      let reply;
       if (recipes[userMsg]) {
         reply = recipes[userMsg];
       } else {
         reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
       }
 
-      chatBox.innerHTML += `<div class="message bot">${reply}</div>`;
+      chatBox.innerHTML += `<div class="message bot">${reply.replace(/\n/g, '<br>')}</div>`;
       chatBox.scrollTop = chatBox.scrollHeight;
       input.value = "";
     }
