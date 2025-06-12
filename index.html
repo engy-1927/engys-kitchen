@@ -1,121 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Engy's Kitchen</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Quicksand', cursive, sans-serif;
-      background: url('https://i.ibb.co/ZGChMGm/pink-butterfly-bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #6b4c7d;
-    }
-    .container {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.85);
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
-    }
-    .chat-box {
-      border: 2px dashed #ffb6c1;
-      padding: 1rem;
-      border-radius: 15px;
-      min-height: 250px;
-      background-color: #fffafc;
-      overflow-y: auto;
-      margin-bottom: 1rem;
-    }
-    .input-group {
-      display: flex;
-    }
-    input[type="text"] {
-      flex: 1;
-      padding: 0.8rem;
-      border-radius: 15px;
-      border: 2px solid #ffc0cb;
-      outline: none;
-    }
-    button {
-      background-color: #ffb6c1;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      margin-left: 0.5rem;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    .message {
-      margin: 0.5rem 0;
-    }
-    .bot {
-      background-color: #f9ebf2;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-    }
-    .user {
-      text-align: right;
-      color: #8e44ad;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Engy's Kitchen</title>
+<style>
+  /* Base pastel pink sky background */
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #ffd6e8 0%, #ffc0cb 100%);
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #6b4c7d;
+    overflow-x: hidden;
+  }
+
+  /* Container styling */
+  .container {
+    max-width: 600px;
+    margin: 3rem auto 2rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
+    position: relative;
+    z-index: 10;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Chat box styling */
+  .chat-box {
+    border: 2px dashed #ffb6c1;
+    padding: 1rem;
+    border-radius: 15px;
+    min-height: 200px;
+    margin-bottom: 1rem;
+    background-color: #fffafc;
+    overflow-y: auto;
+  }
+
+  /* Input styling */
+  .input-group {
+    display: flex;
+  }
+  input[type="text"] {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 15px;
+    border: 2px solid #ffc0cb;
+    outline: none;
+  }
+  button {
+    background-color: #ffb6c1;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    margin-left: 0.5rem;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+
+  /* Messages */
+  .message {
+    margin: 0.5rem 0;
+  }
+  .bot {
+    background-color: #f9ebf2;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+  }
+  .user {
+    text-align: right;
+    color: #8e44ad;
+  }
+
+  /* Floating clouds - white rounded shapes */
+  .cloud {
+    position: fixed;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+    animation: floatCloud 30s linear infinite;
+    z-index: 1;
+  }
+  .cloud::before,
+  .cloud::after {
+    content: "";
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .cloud::before {
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    left: 20px;
+  }
+  .cloud::after {
+    width: 100px;
+    height: 100px;
+    top: -60px;
+    right: 20px;
+  }
+
+  /* Different cloud sizes and positions */
+  .cloud1 {
+    width: 120px;
+    height: 70px;
+    top: 10%;
+    left: -150px;
+    animation-duration: 40s;
+  }
+  .cloud2 {
+    width: 150px;
+    height: 90px;
+    top: 40%;
+    left: -180px;
+    animation-duration: 50s;
+  }
+  .cloud3 {
+    width: 100px;
+    height: 60px;
+    top: 70%;
+    left: -130px;
+    animation-duration: 45s;
+  }
+
+  @keyframes floatCloud {
+    0% { transform: translateX(0); opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { transform: translateX(110vw); opacity: 0.8; }
+  }
+
+  /* Butterfly shape */
+  .butterfly {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    z-index: 2;
+  }
+
+  .butterfly .wing {
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    background: pink;
+    border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+    box-shadow: 0 0 6px 1px rgba(255, 182, 193, 0.6);
+    transform-origin: bottom center;
+    animation: flap 2s infinite alternate;
+  }
+  .butterfly .wing.right {
+    right: 0;
+    transform: scaleX(-1);
+    animation-delay: 1s;
+  }
+  .butterfly .wing.left {
+    left: 0;
+    animation-delay: 0s;
+  }
+
+  @keyframes flap {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(20deg); }
+  }
+
+  /* Different butterflies at different spots and animation durations */
+  .butterfly1 {
+    top: 20%;
+    left: 20%;
+    animation-name: fly1;
+    animation-duration: 12s;
+  }
+  .butterfly2 {
+    top: 60%;
+    left: 75%;
+    animation-name: fly2;
+    animation-duration: 15s;
+  }
+  .butterfly3 {
+    top: 50%;
+    left: 45%;
+    animation-name: fly3;
+    animation-duration: 13s;
+  }
+
+  @keyframes fly1 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(30px, 20px); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes fly2 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(-40px, -10px); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes fly3 {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -15px); }
+    100% { transform: translate(0, 0); }
+  }
+
+</style>
 </head>
 <body>
+  <!-- Clouds -->
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+
+  <!-- Butterflies -->
+  <div class="butterfly butterfly1">
+    <div class="wing left"></div>
+    <div class="wing right"></div>
+  </div>
+  <div class="butterfly butterfly2">
+    <div class="wing left"></div>
+    <div class="wing right"></div>
+  </div>
+  <div class="butterfly butterfly3">
+    <div class="wing left"></div>
+    <div class="wing right"></div>
+  </div>
+
   <div class="container">
-    <div class="chat-box" id="chat">
-      <div class="message bot">Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️</div>
-    </div>
+    <h1>Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️</h1>
+    <div class="chat-box" id="chat"></div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type something like 'cookies'..." />
+      <input type="text" id="userInput" placeholder="Type a recipe name like 'cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
-  <script>
-    const chatBox = document.getElementById("chat");
-    const recipes = {
-      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
+<script>
+  const chatBox = document.getElementById("chat");
+  const recipes = {
+    cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
 🥚 An egg<br>
 🍦 1 tsp of vanilla<br>
 🍬 Half cup of powdered sugar<br>
-🟤 Add brown sugar if available for a nicer color!<br>
+🟤 Add brown sugar if available for a nicer color<br>
 🥄 Mix mix mix!<br>
 🛢️ Add ½ cup oil + 1 tsp vinegar<br>
 🔁 Mix again<br>
 🧂 Pinch of salt + ½ packet baking powder<br>
-🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)<br>
-😴 Let it rest till you get your chocolate chips<br>
-🍫 Dip in your chocolate chips<br>
-🔥 Bake at 200°C for 15–20 min (may vary depending on your oven)<br>
-💭 (Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋)<br>
-🚫 (Don’t leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)<br>
-💕 Don't forget to say Bismallah, sweetie! You're doing amazing, princess! ✨💖`
-    };
+🌾 Gradually add 1½ cups of flour until dough doesn’t stick to your hands<br>
+🚫 Don't overmix!<br>
+🍫 Dip in your chocolate chips<br><br>
+💕 Make small dough balls, dip in your chocolate chips<br>
+🔥 Bake at 200⁰C for 15-20 mins it may vary according to your oven<br>
+💭 <strong>Note:</strong> It might look like it's not done yet but trust me once it gets that golden color get it out immediately it just needs to cool down for a while before eating, once it cools down it will become more crispy😋<br>
+😃 Don't leave it in the oven for much longer or you will enjoy burnt cookies✨️<br><br>
+💖 You're doing amazing, princess! 💕✨`
+  };
 
-    function sendMessage() {
-      const input = document.getElementById("userInput");
-      const userMsg = input.value.trim().toLowerCase();
-      if (!userMsg) return;
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const userMsg = input.value.trim().toLowerCase();
 
-      const userBubble = `<div class="message user">${input.value}</div>`;
-      chatBox.innerHTML += userBubble;
+    if (!userMsg) return;
 
-      let reply;
-      if (userMsg.includes("cookie")) {
-        reply = recipes.cookies;
-      } else {
-        reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
-      }
+    const userBubble = `<div class="message user">${userMsg}</div>`;
+    chatBox.innerHTML += userBubble;
 
-      const botBubble = `<div class="message bot">${reply}</div>`;
-      chatBox.innerHTML += botBubble;
+    let reply;
 
-      chatBox.scrollTop = chatBox.scrollHeight;
-      input.value = "";
+    // Make recipe matching a little flexible
+    if (userMsg.includes("cookie")) {
+      reply = recipes.cookies;
+    } else {
+      reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
     }
-  </script>
+
+    const botBubble = `<div class="message bot">${reply}</div>`;
+    chatBox.innerHTML += botBubble;
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+    input.value = "";
+  }
+</script>
 </body>
 </html>
