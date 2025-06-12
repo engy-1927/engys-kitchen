@@ -312,9 +312,11 @@ You're doing amazing, princess! 💕✨`,
 
       let reply = "";
       const msgLower = userMsg.toLowerCase();
+const triggerWords = ["cookie", "cookies", "make cookies", "bake cookies", "cookie recipe"];
 
-      if (msgLower.includes("cookie")) {
-        reply = recipes["cookies"];
+if (triggerWords.some(word => msgLower.includes(word))) {
+  reply = recipes["cookies"];
+}
       } else {
         reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
       }
