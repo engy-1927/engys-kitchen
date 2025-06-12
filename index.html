@@ -2,52 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Engy's Kitchen</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #ffe6f0;
+      background-color: #ffe6f0;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      color: #6b4c7d;
-      overflow-x: hidden;
-    }
-    .emoji-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
       overflow: hidden;
+    }
+
+    .background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
       z-index: -1;
+      overflow: hidden;
     }
-    .emoji-bg span {
+
+    .background span {
       position: absolute;
-      font-size: 2.5rem;
+      font-size: 2rem;
+      animation: floatDown 12s linear infinite;
       opacity: 0.8;
-      animation: float 10s ease-in-out infinite;
     }
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-30px) rotate(10deg); }
-      100% { transform: translateY(0) rotate(0deg); }
+
+    @keyframes floatDown {
+      0% { transform: translateY(-10%); }
+      100% { transform: translateY(110%); }
     }
-    /* Place emojis */
-    .cloud1 { top: 20%; left: 10%; animation-duration: 12s; }
-    .cloud2 { top: 40%; left: 70%; animation-duration: 15s; }
-    .butterfly1 { top: 60%; left: 25%; animation-duration: 8s; }
-    .butterfly2 { top: 30%; left: 85%; animation-duration: 10s; }
-    .sparkle1 { top: 10%; left: 50%; animation-duration: 6s; }
-    .sparkle2 { top: 80%; left: 40%; animation-duration: 7s; }
 
     .container {
       max-width: 600px;
-      margin: 2rem auto;
+      margin: 5% auto;
       padding: 2rem;
       background: rgba(255,255,255,0.8);
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(255,192,203,0.5);
     }
+
     .chat-box {
       border: 2px dashed #ffb6c1;
       padding: 1rem;
@@ -57,26 +51,61 @@
       overflow-y: auto;
       font-size: 1rem;
       line-height: 1.4;
+      color: #6b4c7d;
     }
-    .input-group { display: flex; margin-top: 1rem; }
-    input { flex:1; padding:0.8rem; border-radius:15px; border:2px solid #ffc0cb; outline:none; }
-    button { background:#ffb6c1; color:#fff; border:none; padding:0.8rem 1.5rem; margin-left:0.5rem; border-radius:15px; cursor:pointer; }
-    .message { margin:0.5rem 0; }
-    .bot { background:#f9ebf2; padding:0.5rem 1rem; border-radius:10px; }
-    .user { text-align:right; color:#8e44ad; }
+
+    .input-group {
+      display: flex;
+      margin-top: 1rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 15px;
+      border: 2px solid #ffc0cb;
+      outline: none;
+    }
+
+    button {
+      background: #ffb6c1;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      margin-left: 0.5rem;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+
+    .message {
+      margin: 0.5rem 0;
+    }
+
+    .bot {
+      background: #f9ebf2;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+    }
+
+    .user {
+      text-align: right;
+      color: #8e44ad;
+    }
   </style>
 </head>
 <body>
-
-  <div class="emoji-bg">
-    <span class="cloud1">☁️</span>
-    <span class="cloud2">☁️</span>
-    <span class="butterfly1">🦋</span>
-    <span class="butterfly2">🦋</span>
-    <span class="sparkle1">✨</span>
-    <span class="sparkle2">✨</span>
+  <!-- Emoji Background -->
+  <div class="background">
+    <span style="left: 10%;">☁️</span>
+    <span style="left: 30%;">🦋</span>
+    <span style="left: 50%;">✨</span>
+    <span style="left: 70%;">☁️</span>
+    <span style="left: 85%;">🦋</span>
+    <span style="left: 40%;">✨</span>
+    <span style="left: 20%;">☁️</span>
   </div>
 
+  <!-- Chat Container -->
   <div class="container">
     <div class="chat-box" id="chat">
       <div class="message bot">
@@ -85,7 +114,7 @@
       </div>
     </div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type 'I wanna make cookies'..." />
+      <input type="text" id="userInput" placeholder="Type something..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
@@ -93,23 +122,42 @@
   <script>
     const chat = document.getElementById('chat');
     const input = document.getElementById('userInput');
+
     const recipe = `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
-🥚 An egg<br>🍦 1 tsp vanilla<br>🍬 Half cup powdered sugar<br>🟤 Add brown sugar if available<br>🥄 Mix mix mix!<br>🛢️ Add ½ cup oil + 1 tsp vinegar<br>🔁 Mix again<br>🧂 Pinch salt + ½ packet baking powder<br>🌾 Gradually add 1½ cups flour (until dough doesn’t stick)<br>😌 Let it rest till you get your chocolate chips<br>🍫 Dip in your chocolate chips<br>🔥 Bake at 200°C for 15–20 mins (may vary)<br><br>
-💡 (Note: It might look undone but once it’s golden, take it out — cool down a while, then it’s more crispy 😋)<br>
-⚠️ (Don’t leave longer or you’ll have burnt cookies 😃✨️)<br><br>
+🥚 An egg<br>
+🍦 1 tsp vanilla<br>
+🍬 Half cup powdered sugar<br>
+🟤 Add brown sugar if available for a nicer color<br>
+🥄 Mix mix mix!<br>
+🛢️ Add ½ cup oil + 1 tsp vinegar<br>
+🔁 Mix again<br>
+🧂 Pinch salt + ½ packet baking powder<br>
+🌾 Gradually add 1½ cups flour (until dough doesn't stick to your hands)<br>
+😌 Let it rest till you get your chocolate chips<br>
+🍫 Dip in your chocolate chips<br>
+🔥 Bake at 200°C for 15–20 mins (may vary)<br><br>
+💡 (Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating, once it cools down it will become more crispy 😋)<br>
+⚠️ (Don’t leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)<br><br>
 💖 Bismillah, sweetie! You’re doing amazing, princess! 🎀`;
 
     function sendMessage() {
       const msg = input.value.trim();
       if (!msg) return;
+
+      // User message
       chat.innerHTML += `<div class="message user">${msg}</div>`;
       input.value = '';
       chat.scrollTop = chat.scrollHeight;
 
+      // Bot reply with delay
       setTimeout(() => {
-        const lower = msg.toLowerCase();
-        const isCookie = lower.includes('cookie');
-        const reply = isCookie ? recipe : `🧁 I'm learning more recipes—ask me about cookies! 💖`;
+        const text = msg.toLowerCase();
+        const wantsCookies = text.includes('cookie');
+
+        const reply = wantsCookies
+          ? recipe
+          : "🧁 I'm your kitchen fairy, ask me for the cookie recipe anytime! 💖";
+
         chat.innerHTML += `<div class="message bot">${reply}</div>`;
         chat.scrollTop = chat.scrollHeight;
       }, 2000);
