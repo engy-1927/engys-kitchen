@@ -8,39 +8,31 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: url('https://i.ibb.co/tXfL1hF/pastel-sky.png') no-repeat center center fixed;
+      font-family: 'Quicksand', cursive, sans-serif;
+      background: url('https://i.ibb.co/ZGChMGm/pink-butterfly-bg.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #6b4c7d;
     }
-
     .container {
       max-width: 600px;
       margin: 2rem auto;
       padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.88);
+      background-color: rgba(255, 255, 255, 0.85);
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 192, 203, 0.4);
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
     }
-
-    h1 {
-      display: none;
-    }
-
     .chat-box {
       border: 2px dashed #ffb6c1;
       padding: 1rem;
       border-radius: 15px;
       min-height: 250px;
-      margin-bottom: 1rem;
       background-color: #fffafc;
       overflow-y: auto;
+      margin-bottom: 1rem;
     }
-
     .input-group {
       display: flex;
     }
-
     input[type="text"] {
       flex: 1;
       padding: 0.8rem;
@@ -48,7 +40,6 @@
       border: 2px solid #ffc0cb;
       outline: none;
     }
-
     button {
       background-color: #ffb6c1;
       color: white;
@@ -58,43 +49,33 @@
       border-radius: 15px;
       cursor: pointer;
     }
-
     .message {
       margin: 0.5rem 0;
-      padding: 0.6rem 1rem;
-      border-radius: 10px;
-      line-height: 1.6;
     }
-
     .bot {
       background-color: #f9ebf2;
-      color: #5e2c6f;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
     }
-
     .user {
       text-align: right;
       color: #8e44ad;
-      background-color: #e6ddf7;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="chat-box" id="chat"></div>
+    <div class="chat-box" id="chat">
+      <div class="message bot">Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️</div>
+    </div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type anything like 'I wanna bake cookies'..." />
+      <input type="text" id="userInput" placeholder="Type something like 'cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
     const chatBox = document.getElementById("chat");
-
-    window.onload = () => {
-      const welcome = `Hey sweetie! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨️`;
-      chatBox.innerHTML += `<div class="message bot">${welcome}</div>`;
-    };
-
     const recipes = {
       cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
 🥚 An egg<br>
@@ -106,14 +87,12 @@
 🔁 Mix again<br>
 🧂 Pinch of salt + ½ packet baking powder<br>
 🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)<br>
-🚫 Don't overmix!<br>
-💕 Let it rest till you get your chocolate chips<br>
+😴 Let it rest till you get your chocolate chips<br>
 🍫 Dip in your chocolate chips<br>
-🔥 Bake at 200°C for 15–20 mins (it may vary according to your oven)<br>
-💡 <b>Note:</b> It might look like it's not done yet but trust me, once it gets that golden color get it out immediately. It just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋<br>
-⚠️ <i>(Don't leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)</i><br>
-💖 Don’t forget to say Bismallah, sweetie! 🎀<br><br>
-You're doing amazing, princess! 💕✨`
+🔥 Bake at 200°C for 15–20 min (may vary depending on your oven)<br>
+💭 (Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋)<br>
+🚫 (Don’t leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)<br>
+💕 Don't forget to say Bismallah, sweetie! You're doing amazing, princess! ✨💖`
     };
 
     function sendMessage() {
@@ -121,18 +100,19 @@ You're doing amazing, princess! 💕✨`
       const userMsg = input.value.trim().toLowerCase();
       if (!userMsg) return;
 
-      chatBox.innerHTML += `<div class="message user">${input.value}</div>`;
+      const userBubble = `<div class="message user">${input.value}</div>`;
+      chatBox.innerHTML += userBubble;
 
       let reply;
-
-      // Pattern matching for variations
       if (userMsg.includes("cookie")) {
         reply = recipes.cookies;
       } else {
         reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
       }
 
-      chatBox.innerHTML += `<div class="message bot">${reply}</div>`;
+      const botBubble = `<div class="message bot">${reply}</div>`;
+      chatBox.innerHTML += botBubble;
+
       chatBox.scrollTop = chatBox.scrollHeight;
       input.value = "";
     }
