@@ -1,178 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Engy's Kitchen 🍪</title>
-  <style>
-    * {
-      box-sizing: border-box;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Engy's Kitchen Fairy Chatbot</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    background-image: url('https://i.ibb.co/qkg0dnh/pastel-pink-clouds-butterflies.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    overflow-y: auto;
+  }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  .messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .bot-message, .user-message {
+    background: #fff0f6;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-bottom: 12px;
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
+  }
+  .user-message {
+    background: #d0f0fd;
+    align-self: flex-end;
+    box-shadow: 0 4px 8px rgba(173, 216, 230, 0.3);
+  }
+  #chat-form {
+    display: flex;
+    margin-top: 10px;
+  }
+  #user-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border-radius: 30px;
+    border: 2px solid #ffb6c1;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  #user-input:focus {
+    border-color: #ff69b4;
+  }
+  button {
+    background-color: #ff69b4;
+    border: none;
+    color: white;
+    padding: 0 20px;
+    margin-left: 10px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #ff1493;
+  }
+  /* Floating emojis background */
+  body::before {
+    content: "☁️ 🦋 ✨ ☁️ 🦋 ✨ ☁️ 🦋 ✨";
+    position: fixed;
+    top: -100px;
+    left: 0;
+    right: 0;
+    font-size: 3rem;
+    color: rgba(255, 182, 193, 0.35);
+    display: flex;
+    justify-content: space-around;
+    animation: floatDown 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes floatDown {
+    0% {
+      transform: translateY(-150px);
     }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      overflow-x: hidden;
-      background-image: url('https://i.ibb.co/qkg0dnh/pastel-pink-clouds-butterflies.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+    100% {
+      transform: translateY(110vh);
     }
-
-    .chat-container {
-      display: flex;
-      flex-direction: column;
-      max-width: 500px;
-      height: 100vh;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      overflow-y: auto;
-    }
-
-    .messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding-bottom: 10px;
-    }
-
-    .message {
-      padding: 12px 18px;
-      border-radius: 20px;
-      margin: 10px 0;
-      max-width: 80%;
-      line-height: 1.5;
-    }
-
-    .bot {
-      background-color: #ffe0f0;
-      align-self: flex-start;
-      font-size: 16px;
-    }
-
-    .user {
-      background-color: #d0f0ff;
-      align-self: flex-end;
-      font-size: 16px;
-    }
-
-    .input-area {
-      display: flex;
-      margin-top: 10px;
-    }
-
-    input {
-      flex: 1;
-      padding: 10px 15px;
-      font-size: 16px;
-      border: 2px solid #ffc0cb;
-      border-radius: 20px;
-      outline: none;
-    }
-
-    button {
-      margin-left: 10px;
-      background-color: #ffb6c1;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #ff94b8;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div class="chat-container">
     <div class="messages" id="messages">
-      <div class="message bot">Hey princess!🎀 I'm your cooking fairy🧚‍♀️ What would you like to cook today?✨️</div>
+      <div class="bot-message">Hey princess!🎀 I'm your cooking fairy🧚‍♀️ what would you like to cook today?✨️</div>
     </div>
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Type here..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off" required />
+      <button type="submit">Send</button>
+    </form>
   </div>
 
   <script>
-    const messages = document.getElementById("messages");
+    const messagesContainer = document.getElementById('messages');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
 
-    function addMessage(text, sender) {
-      const msg = document.createElement("div");
-      msg.classList.add("message", sender);
-      msg.textContent = text;
-      messages.appendChild(msg);
-      messages.scrollTop = messages.scrollHeight;
+    // Scroll chat to bottom
+    function scrollToBottom() {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    function botResponse(userText) {
-      const lowercase = userText.toLowerCase();
-      if (
-        lowercase.includes("cookie") ||
-        lowercase.includes("cookies") ||
-        lowercase.includes("make cookies") ||
-        lowercase.includes("some cookies")
-      ) {
-        return `Yay! Let's make the yummiest cookies ever! 🍪💖
-
-1. Add 1½ cups flour gradually.
-2. 1 egg + 1 tsp vanilla + 1 pinch salt.
-3. Add ½ tsp baking soda and ½ tsp baking powder.
-4. Add ½ cup melted butter and ½ cup sugar.
-5. Add brown sugar if available for a nicer color 🍯.
-6. Mix until dough doesn't stick to your hands 👐.
-7. Let it rest till you get your chocolate chips 🍫.
-8. Dip in your chocolate chips generously 😍.
-9. Bake it at 200⁰C for 15-20 mins (may vary by oven).
-
-(Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately! It just needs to cool down for a while before eating. Once it cools down it will become more crispy😋)
-(Don't leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)
-
-Happy baking sweetie! 🍪🧁💗`;
-      }
-
-      return "Aww I don't know this recipe yet!✨ Tell me exactly what you'd like to cook, cutie 🍓";
+    // Add message to chat
+    function addMessage(text, sender = 'bot') {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add(sender === 'bot' ? 'bot-message' : 'user-message');
+      msgDiv.textContent = text;
+      messagesContainer.appendChild(msgDiv);
+      scrollToBottom();
     }
 
-    function sendMessage() {
-      const input = document.getElementById("userInput");
-      const userText = input.value.trim();
-      if (userText === "") return;
-
-      addMessage(userText, "user");
-      input.value = "";
-
+    // Simulate typing with delay
+    function botReply(text) {
       setTimeout(() => {
-        const response = botResponse(userText);
-        typeBotMessage(response);
+        let index = 0;
+        const typingSpeed = 40;
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('bot-message');
+        messagesContainer.appendChild(msgDiv);
+        scrollToBottom();
+
+        function type() {
+          if (index < text.length) {
+            msgDiv.textContent += text.charAt(index);
+            index++;
+            scrollToBottom();
+            setTimeout(type, typingSpeed);
+          }
+        }
+        type();
       }, 2000);
     }
 
-    function typeBotMessage(text) {
-      let i = 0;
-      const speed = 15;
-      const msg = document.createElement("div");
-      msg.classList.add("message", "bot");
-      messages.appendChild(msg);
+    function processInput(input) {
+      const lowerInput = input.toLowerCase();
 
-      function typeChar() {
-        if (i < text.length) {
-          msg.textContent += text.charAt(i);
-          i++;
-          messages.scrollTop = messages.scrollHeight;
-          setTimeout(typeChar, speed);
+      const cookieTriggers = [
+        "cookie",
+        "cookies",
+        "make some cookies",
+        "bake cookies",
+        "help me make cookies",
+        "i wanna make some cookies",
+        "can u help me make cookies",
+        "cook cookies",
+      ];
+
+      for (const trigger of cookieTriggers) {
+        if (lowerInput.includes(trigger)) {
+          return `Sure! Here's the cookie recipe 🍪:
+
+1. Mix the dry ingredients in a bowl.
+2. Add butter and sugar, and cream until fluffy.
+3. Add eggs and vanilla extract.
+4. Gradually add 1½ cups flour.
+5. Stir in chocolate chips and brown sugar (optional for nicer color).
+6. Dip the dough in your chocolate chips.
+7. Shape the dough and place on baking tray.
+8. Bake at 200⁰C for 15-20 mins (may vary by oven).
+9. (Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately it just needs to cool down for a while before eating, once it cools down it will become more crispy😋)
+10. (Don't leave it in the oven for much longer or you will enjoy burnt cookies😃✨️)
+
+Enjoy your baking! 🍪✨️`;
         }
       }
-      typeChar();
+
+      return "Sorry, I didn't understand that. Could you please try asking differently? 😊";
     }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const userText = userInput.value.trim();
+      if (!userText) return;
+
+      addMessage(userText, 'user');
+      userInput.value = '';
+      const reply = processInput(userText);
+      botReply(reply);
+    });
+
   </script>
 </body>
 </html>
