@@ -8,12 +8,9 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background-color: #ffe6f0;
-      background-image: url('https://i.ibb.co/0m1XZG2/bg-pink-butterflies-clouds.jpg');
+      background: url('https://i.imgur.com/y2jBxXr.jpg') no-repeat center center fixed;
       background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       color: #6b4c7d;
     }
 
@@ -26,21 +23,16 @@
       box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
     }
 
-    h1 {
-      text-align: center;
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-    }
-
     .chat-box {
       border: 2px dashed #ffb6c1;
       padding: 1rem;
       border-radius: 15px;
-      min-height: 300px;
+      min-height: 250px;
       margin-bottom: 1rem;
       background-color: #fffafc;
       overflow-y: auto;
       max-height: 400px;
+      font-size: 16px;
     }
 
     .input-group {
@@ -53,7 +45,6 @@
       border-radius: 15px;
       border: 2px solid #ffc0cb;
       outline: none;
-      font-size: 1rem;
     }
 
     button {
@@ -64,13 +55,10 @@
       margin-left: 0.5rem;
       border-radius: 15px;
       cursor: pointer;
-      font-size: 1rem;
     }
 
     .message {
       margin: 0.5rem 0;
-      font-size: 1rem;
-      line-height: 1.4;
     }
 
     .bot {
@@ -87,14 +75,11 @@
 </head>
 <body>
   <div class="container">
-    <h1>Engy's Kitchen 🧁</h1>
     <div class="chat-box" id="chat">
-      <div class="message bot">
-        Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br> What would you like to cook today? ✨
-      </div>
+      <div class="message bot">Hey princess! 🎀 I'm your cooking fairy 🧚‍♀️<br>What would you like to cook today? ✨️</div>
     </div>
     <div class="input-group">
-      <input type="text" id="userInput" placeholder="Type something like 'cookies'..." />
+      <input type="text" id="userInput" placeholder="Type something like 'I wanna make some cookies'..." />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
@@ -103,69 +88,54 @@
     const chatBox = document.getElementById("chat");
 
     const recipes = {
-      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪
-
-🥚 An egg  
-🍦 1 tsp of vanilla  
-🍬 Half cup of powdered sugar  
-🟤 Add brown sugar if available for a nicer color!  
-🥄 Mix mix mix!  
-🛢️ Add ½ cup oil + 1 tsp vinegar  
-🔁 Mix again  
-🧂 Pinch of salt + ½ packet baking powder  
-🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)  
-😌 Let it rest till you get your chocolate chips  
-🍫 Dip in your chocolate chips  
-🔥 Bake it at 200°C for 15–20 min (it may vary depending on your oven)  
-🧚‍♀️ (Note: It might look like it's not done yet but trust me once it gets that golden color get it out immediately — it just needs to cool down for a while before eating. Once it cools down it will become more crispy 😋)  
-⚠️ (Don't leave it in the oven for much longer or you will enjoy burnt cookies 😃✨)
-
-💖 Don’t forget to say Bismallah, sweetie! You're doing amazing, princess! ✨`,
+      cookies: `🍪 Here’s Engy’s Magical Cookie Recipe 🍪<br><br>
+🥚 An egg<br>
+🍦 1 tsp of vanilla<br>
+🍬 Half cup of powdered sugar<br>
+🟤 Add brown sugar if available for a nicer color!<br>
+🥄 Mix mix mix!<br>
+🛢️ Add ½ cup oil + 1 tsp vinegar<br>
+🔁 Mix again<br>
+🧂 Pinch of salt + ½ packet baking powder<br>
+🌾 Gradually add 1½ cups of flour (until dough doesn't stick to your hands)<br>
+⏳ Let it rest till you get your chocolate chips<br>
+🍫 Dip in your chocolate chips<br>
+🔥 Bake it at 200⁰C for 15–20 mins — it may vary according to your oven<br><br>
+💡 (Note: It might look like it's not done yet but trust me, once it gets that golden color, get it out immediately. It just needs to cool down for a while before eating. Once it cools down, it will become more crispy 😋)<br>
+🚫 (Don’t leave it in the oven for much longer or you will enjoy burnt cookies 😃✨️)<br><br>
+💖 Don't forget to say Bismallah, sweetie! You're doing amazing, princess! 🎀✨`
     };
 
-    const keywords = ["cookies", "make some cookies", "help me make cookies", "i wanna make cookies", "how to make cookies"];
+    const cookieKeywords = [
+      "cookie", "cookies", "make cookies", "i wanna make some cookies",
+      "bake cookies", "can you help me make cookies", "let's make cookies"
+    ];
 
     function sendMessage() {
       const input = document.getElementById("userInput");
       const userMsg = input.value.trim();
+
       if (!userMsg) return;
 
-      const userBubble = `<div class="message user">${userMsg}</div>`;
-      chatBox.innerHTML += userBubble;
-
-      // Match keywords
       const lowerMsg = userMsg.toLowerCase();
-      let reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
-      for (let phrase of keywords) {
-        if (lowerMsg.includes(phrase)) {
-          reply = recipes.cookies;
-          break;
-        }
-      }
+      chatBox.innerHTML += `<div class="message user">${userMsg}</div>`;
 
-      // Simulate typing
-      setTimeout(() => {
-        typeMessage(reply);
-      }, 2000); // Delay before typing
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
-    }
 
-    function typeMessage(text) {
-      const botMsg = document.createElement("div");
-      botMsg.className = "message bot";
-      chatBox.appendChild(botMsg);
-      let index = 0;
-      function typeChar() {
-        if (index < text.length) {
-          botMsg.innerHTML += text[index] === '\n' ? '<br>' : text[index];
-          index++;
-          setTimeout(typeChar, 15); // typing speed
-        } else {
-          chatBox.scrollTop = chatBox.scrollHeight;
+      setTimeout(() => {
+        let reply = `🧁 I'm still learning that recipe, sweetheart! Try asking for "cookies" 🍪 or check back later 💖`;
+
+        for (let keyword of cookieKeywords) {
+          if (lowerMsg.includes(keyword)) {
+            reply = recipes.cookies;
+            break;
+          }
         }
-      }
-      typeChar();
+
+        chatBox.innerHTML += `<div class="message bot">${reply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 2000); // 2-second delay to simulate natural typing
     }
   </script>
 </body>
